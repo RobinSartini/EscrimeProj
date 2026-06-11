@@ -15,9 +15,9 @@ EscrimeGame - Système de notation pour un tournoi d'escrime fantastique
 # 1. Identification
 
 | **Projet**  | EscrimeGame - Système de notation pour un tournoi d'escrime fantastique |
-| ----------- | ----------------------------------------------------------------------- |
+| ----------- |-------------------------------------------------------------------------|
 | **Version** | 1.0                                                                     |
-| **Auteur**  | [Votre nom]                                                             |
+| **Auteur**  | Sartini Robin / Nouali Malcom / Martel Nathan                           |
 | **Date**    | 2026-06-10                                                              |
 | **Statut**  | **En cours**                                                            |
 
@@ -176,9 +176,9 @@ Chaque exigence métier est reliée à au moins un cas de test. Cette matrice pr
 
 # 10. Responsabilités
 
-| **Rôle**                  | **Responsable**       | **Activités**                                                             |
-| ------------------------- | --------------------- | ------------------------------------------------------------------------- |
-| **Développeur / Testeur** | [Votre nom]           | Rédaction du plan, écriture des tests, implémentation TDD, rapport final  |
-| **Formateur / Valideur**  | Kake Abdoulaye        | Validation du plan de test, revue de la matrice de traçabilité, notation  |
+| **Rôle**                  | **Responsable** | **Activités**                                                             |
+| ------------------------- |-----------------| ------------------------------------------------------------------------- |
+| **Développeur / Testeur** | Sartini Robin / Nouali Malcom / Martel Nathan               | Rédaction du plan, écriture des tests, implémentation TDD, rapport final  |
+| **Formateur / Valideur**  | Kake Abdoulaye  | Validation du plan de test, revue de la matrice de traçabilité, notation  |
 
 _Ce plan de test doit être validé avant toute ligne de code de production (exigence TDD stricte)._
