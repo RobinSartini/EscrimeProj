@@ -646,9 +646,10 @@
 .ornament-divider {
   text-align: center;
   color: var(--border-strong);
-  font-size: 1rem;
-  letter-spacing: 0.5em;
+  font-size: 0.75rem;
+  letter-spacing: 0.4em;
   user-select: none;
+  flex-shrink: 0;
 }
 
 /* ══════════════════════════════════════════
