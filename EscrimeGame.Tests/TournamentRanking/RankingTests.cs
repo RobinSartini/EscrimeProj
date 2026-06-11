@@ -34,8 +34,8 @@ public class RankingTests
         var ranking = _ranking.GetRanking(new List<Player> { merlin, lancelot });
 
         ranking.Select(p => p.Name).Should().Equal(
-            new[] { "Dame Morgane", "Lancelot" },
-            "à égalité, l'ordre d'entrée doit être préservé (OrderByDescending est un tri stable)");
+            new[] { "Merlin", "Lancelot" },
+            " ǸgalitǸ, l'ordre d'entrǸe doit Ǧtre prǸservǸ (OrderByDescending est un tri stable)");
     }
     
     [Fact]
