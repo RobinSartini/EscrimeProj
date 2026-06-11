@@ -48,4 +48,15 @@ public class BaseScoringTests
         score.Should().Be(3, "3 nuls × 1 point");
     }
     
+    [Fact]
+    [Trait("Requirement", "REQ-E-002")]
+    [Trait("TestCase", "TC-004")]
+    public void CalculateScore_OnlyLosses_ReturnsZero()
+    {
+        var matches = new List<MatchResult> { Loss, Loss };
+
+        var score = _calculator.CalculateScore(matches);
+
+        score.Should().Be(0, "une défaite ne rapporte aucun point");
+    }
 }
