@@ -8,29 +8,29 @@ on:
 
 permissions:
   contents: read
-  checks: write        # pour publier le rapport de test
-  pull-requests: write # pour commenter les PR avec la couverture
+  checks: write        # To publish the test report
+  pull-requests: write # To comment on PRs with code coverage
 
 jobs:
   # ─────────────────────────────────────────────
-  # Job 1 : Build & Tests .NET + couverture
+  # Job 1: .NET Build, Tests & Coverage
   # ─────────────────────────────────────────────
   dotnet-ci:
-    name: ".NET 9 — Build, Tests & Couverture"
+    name: ".NET 9 — Build, Tests & Coverage"
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # ── SDK .NET ──
-      - name: Installer .NET 9
+      # ── .NET SDK ──
+      - name: Setup .NET 9
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "9.0.x"
 
-      # ── Cache NuGet ──
-      - name: Cache NuGet
+      # ── NuGet Cache ──
+      - name: Cache NuGet packages
         uses: actions/cache@v4
         with:
           path: ~/.nuget/packages
@@ -38,16 +38,16 @@ jobs:
           restore-keys: |
             nuget-${{ runner.os }}-
 
-      # ── Restauration ──
-      - name: Restaurer les dépendances
+      # ── Restore ──
+      - name: Restore dependencies
         run: dotnet restore EscrimeGame.sln
 
       # ── Build ──
       - name: Build (Release)
         run: dotnet build EscrimeGame.sln --no-restore --configuration Release
 
-      # ── Tests + couverture (format Cobertura) ──
-      - name: Exécuter les tests avec couverture
+      # ── Tests + Coverage (Cobertura format) ──
+      - name: Run tests with coverage
         run: >
           dotnet test EscrimeGame.sln
           --no-build
@@ -58,8 +58,8 @@ jobs:
           --
           DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura
 
-      # ── Rapport HTML + résumé Markdown via ReportGenerator ──
-      - name: Générer le rapport de couverture
+      # ── HTML Report + Markdown Summary via ReportGenerator ──
+      - name: Generate coverage report
         uses: danielpalme/ReportGenerator-GitHub-Action@5
         with:
           reports: "TestResults/**/coverage.cobertura.xml"
@@ -67,30 +67,30 @@ jobs:
           reporttypes: "HtmlInline;MarkdownSummaryGithub;Cobertura"
           verbosity: "Warning"
 
-      # ── Publier le résumé dans GitHub Actions Job Summary ──
-      - name: Publier la couverture dans le Job Summary
+      # ── Publish Summary to GitHub Actions Job Summary ──
+      - name: Publish coverage to Job Summary
         run: cat TestResults/CoverageReport/SummaryGithub.md >> $GITHUB_STEP_SUMMARY
 
-      # ── Commenter la PR avec le delta de couverture (si PR) ──
-      - name: Commenter la PR avec la couverture
+      # ── Comment PR with coverage delta (if PR) ──
+      - name: Comment PR with coverage
         if: github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           recreate: true
           path: TestResults/CoverageReport/SummaryGithub.md
 
-      # ── Publier les résultats de test dans l'UI GitHub ──
-      - name: Publier les résultats de test (.trx)
+      # ── Publish Test Results in GitHub UI ──
+      - name: Publish test results (.trx)
         uses: dorny/test-reporter@v1
         if: always()
         with:
-          name: "Résultats NUnit"
+          name: "xUnit Results"
           path: "TestResults/*.trx"
           reporter: dotnet-trx
           fail-on-error: true
 
-      # ── Archiver le rapport HTML complet ──
-      - name: Archiver le rapport de couverture HTML
+      # ── Archive full HTML Report ──
+      - name: Archive HTML coverage report
         uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -99,10 +99,10 @@ jobs:
           retention-days: 14
 
   # ─────────────────────────────────────────────
-  # Job 2 : Build du frontend Vite / TypeScript
+  # Job 2: Frontend Build (Vite / TypeScript)
   # ─────────────────────────────────────────────
   frontend-ci:
-    name: "Frontend — TypeScript & Build Vite"
+    name: "Frontend — TypeScript & Vite Build"
     runs-on: ubuntu-latest
 
     defaults:
@@ -113,18 +113,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Installer Node.js
-        uses: actions/setup-node@v4
+      # ── Setup Bun ──
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: "22"
-          cache: "npm"
-          cache-dependency-path: escrime-web/package.json
+          bun-version: latest
 
-      - name: Installer les dépendances
-        run: npm install
+      # ── Install ──
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
 
-      - name: Vérification TypeScript
-        run: npx tsc --noEmit
+      # ── Typecheck ──
+      - name: TypeScript typecheck
+        run: bun x tsc --noEmit
 
-      - name: Build de production
-        run: npm run build
+      # ── Build ──
+      - name: Production build
+        run: bun run build
