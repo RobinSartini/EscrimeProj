@@ -37,4 +37,20 @@ public class RankingTests
             new[] { "Dame Morgane", "Lancelot" },
             "à égalité, l'ordre d'entrée doit être préservé (OrderByDescending est un tri stable)");
     }
+    
+    [Fact]
+    [Trait("Requirement", "REQ-E-013")]
+    [Trait("TestCase", "TC-021")]
+    public void GetChampion_ReturnsHighestScoringPlayer()
+    {
+        var merlin = new Player { Name = "Merlin", Matches = new List<MatchResult> { Win, Win, Win } };
+        var blackKnight   = new Player { Name = "Chevalier Noir",   Matches = new List<MatchResult> { Win, Win, Draw } };
+        var lancelot = new Player { Name = "Lancelot", Matches = new List<MatchResult> { Win, Draw, Loss } };
+
+        var champion = _ranking.GetChampion(new List<Player> { merlin, blackKnight, lancelot });
+
+        champion.Should().NotBeNull();
+        champion!.Name.Should().Be("Merlin", "14 est le score le plus élevé");
+    }
+
 }
