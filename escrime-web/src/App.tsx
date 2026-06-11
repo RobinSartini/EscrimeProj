@@ -11,6 +11,10 @@ function App() {
   const { toasts, addToast, removeToast } = useToast()
   const { ranking, champion, loading, fetchData, seedDatabase } = useTournament()
 
+  const effectiveChampion = ranking.length > 0 && ranking.some(r => r.totalScore > 0)
+    ? champion
+    : null
+
   const [player1Id, setPlayer1Id] = useState<string>('')
   const [player2Id, setPlayer2Id] = useState<string>('')
 
@@ -161,7 +165,7 @@ function App() {
             <div className="ornament-divider">─────── ✦ ───────</div>
 
             <Dashboard
-              champion={champion}
+              champion={effectiveChampion}
               ranking={ranking}
               onRefresh={fetchData}
             />
