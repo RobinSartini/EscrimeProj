@@ -34,12 +34,6 @@ public class TournamentRanking
             return null;
 
         var ranked = GetRanking(players);
-        var best = ranked.FirstOrDefault();
-
-        if (best == null)
-            return null;
-
-        var bestScore = _scoreCalculator.CalculateScore(best.Matches, best.IsDisqualified, best.PenaltyPoints);
-        return bestScore > 0 ? best : null;
+        return ranked.FirstOrDefault();
     }
 }
