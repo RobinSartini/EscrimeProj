@@ -39,4 +39,22 @@ public class ChampionTests
 
         championScore.Should().Be(0, "tous disqualifiés → meilleur score possible = 0");
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-E-016")]
+    [Trait("TestCase", "TC-026")]
+    public void GetChampion_PlayersWithIds_ChampionHasValidId()
+    {
+        var match = new MatchResult { Outcome = MatchResult.Result.Win };
+        var players = new List<Player>
+        {
+            new Player { Id = 1, Name = "Sir Galahad", Matches = new List<MatchResult> { match } },
+            new Player { Id = 2, Name = "Lancelot", Matches = new List<MatchResult>() },
+        };
+
+        var champion = _ranking.GetChampion(players);
+
+        champion.Should().NotBeNull();
+        champion!.Id.Should().Be(1, "le champion est le joueur avec l'Id 1 (meilleur score)");
+    }
 }

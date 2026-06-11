@@ -135,6 +135,10 @@ Chaque cas de test couvre une exigence métier identifiée. Les tests sont class
 | **TC-020** | ★ Gestion des égalités de score                                       | 2 joueurs avec score identique                | Ordre stable conservé          | REQ-E-017    |
 | **TC-021** | ★ Champion = joueur avec le score le plus élevé                       | 3 joueurs, scores 14 / 7 / 4                  | Joueur avec 14 points          | REQ-E-016    |
 | **TC-022** | ★ Tous les joueurs disqualifiés → champion à 0 point                  | 3 joueurs tous disqualifiés                   | Score du champion = 0          | REQ-E-018    |
+| **TC-023** | ★ GetRanking avec liste null → liste vide                             | null                                          | Liste vide retournée           | REQ-E-016    |
+| **TC-024** | ★ GetChampion avec liste null → null                                  | null                                          | null retourné                  | REQ-E-016    |
+| **TC-025** | ★ GetChampion avec liste vide → null                                  | []                                            | null retourné                  | REQ-E-016    |
+| **TC-026** | ★ GetChampion vérifie l'Id du champion                                | 2 joueurs avec Id et scores différents        | Champion a l'Id attendu        | REQ-E-016    |
 
 # 8. Matrice de traçabilité
 
@@ -152,7 +156,7 @@ Chaque exigence métier est reliée à au moins un cas de test. Cette matrice pr
 | **REQ-E-008**      | Liste null lève ArgumentNullException                        | TC-016                       | CalculateScore                | À faire          |
 | **REQ-E-009**      | Pénalités négatives lèvent ArgumentException                 | TC-017                       | CalculateScore                | À faire          |
 | **REQ-E-010**      | Tests paramétrés [Theory] couvrant plusieurs scénarios       | TC-018                       | CalculateScore                | À faire          |
-| **REQ-E-016 ★**    | Classement des joueurs par score décroissant                 | TC-019, TC-021               | GetRanking, GetChampion       | À faire          |
+| **REQ-E-016 ★**    | Classement des joueurs par score décroissant                 | TC-019, TC-021, TC-023, TC-024, TC-025, TC-026 | GetRanking, GetChampion | À faire |
 | **REQ-E-017 ★**    | Gestion des égalités de score dans le classement             | TC-020                       | GetRanking                    | À faire          |
 | **REQ-E-018 ★**    | Tous les joueurs disqualifiés → champion à 0                 | TC-022                       | GetChampion                   | À faire          |
 
