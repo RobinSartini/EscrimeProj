@@ -20,6 +20,8 @@ export function useTournament() {
       if (champRes.ok) {
         const champData: Player = await champRes.json()
         setChampion(champData)
+      } else {
+        setChampion(null)
       }
     } catch (error) {
       console.error('Erreur lors de la récupération des données :', error)
