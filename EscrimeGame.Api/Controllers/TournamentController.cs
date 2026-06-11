@@ -124,27 +124,9 @@ public class TournamentController : ControllerBase
         if (p1.Id == p2.Id)
             return BadRequest("Un joueur ne peut pas se battre contre lui-même.");
 
-        var random = new Random();
-        var outcome1 = (MatchResult.Result)random.Next(3);
-        MatchResult.Result outcome2;
-
-        if (outcome1 == MatchResult.Result.Win) outcome2 = MatchResult.Result.Loss;
-        else if (outcome1 == MatchResult.Result.Loss) outcome2 = MatchResult.Result.Win;
-        else outcome2 = MatchResult.Result.Draw;
-
-        _context.Matches.Add(new MatchResult { PlayerId = p1.Id, Outcome = outcome1 });
-        _context.Matches.Add(new MatchResult { PlayerId = p2.Id, Outcome = outcome2 });
-
-        await _context.SaveChangesAsync();
-
         return Ok(new {
             player1 = p1,
-            player2 = p2,
-            outcome1 = outcome1.ToString(),
-            outcome2 = outcome2.ToString(),
-            message = outcome1 == MatchResult.Result.Draw
-                ? $"{p1.Name} a fait match nul contre {p2.Name}."
-                : (outcome1 == MatchResult.Result.Win ? $"{p1.Name} a vaincu {p2.Name} !" : $"{p2.Name} a vaincu {p1.Name} !")
+            player2 = p2
         });
     }
 }
